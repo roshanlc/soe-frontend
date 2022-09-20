@@ -29,6 +29,7 @@ function Auth() {
                     <li className="nav-item">
                         <Link className="nav-link" to="/issue">Issues</Link>
                     </li>
+
                     <li className="nav-item">
                         <span role="button" className="nav-link" onClick={logoutUser}>Logout</span>
                     </li>

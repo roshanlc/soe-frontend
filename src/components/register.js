@@ -10,7 +10,7 @@ export default function Register() {
     const [name, setName] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const [symnbol_no, setSymbol] = useState();
+    const [symbol_no, setSymbol] = useState();
     const [pu_regd_no, setRegistraion] = useState();
     const [contact_no, setNumber] = useState();
     const [program_id, setProgram] = useState();
@@ -22,14 +22,15 @@ export default function Register() {
 
     const submitStudentForm = () => {
         // api call
-        http.post('/register', { email: email, password: password, name: name, symnbol_no: symnbol_no, pu_regd_no: pu_regd_no, contact_no: contact_no, program_id: program_id, semester: semester }).then((res) => {
+        http.post('/students/register', { email: email, password: password, name: name, symbol_no: parseInt(symbol_no), pu_regd_no: pu_regd_no, contact_no: contact_no, program_id: 1, semester: 2, enrolled_at: "2018-06-12T00:00:00Z"}).then((res) => {
+           console.log(res.data)
             navigate('/login')
         })
     }
 
     const submitTeacherForm = () => {
         // api call
-        http.post('/register', { email: email, password: password, name: name, contact_no: contact_no,}).then((res) => {
+        http.post('/teachers/register', { email: email, password: password, name: name, contact_no: contact_no, academics: ["B.E some engineering", "M.SC some degree"], joined_at: "2018-06-12T00:00:00Z" }).then((res) => {
             navigate('/login')
         })
     }
@@ -72,7 +73,7 @@ export default function Register() {
                                 </div>
                                 <div className="form-group mt-3">
                                     <label>PU Registration No:</label>
-                                    <input type="number" className="form-control" placeholder="Enter registration no"
+                                    <input type="text" className="form-control" placeholder="Enter registration no"
                                         onChange={e => setRegistraion(e.target.value)}
                                         id="email" />
                                 </div>
