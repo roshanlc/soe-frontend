@@ -4,10 +4,11 @@ import Dashboard from '../components/dashboard';
 import AuthUser from '../components/AuthUser';
 import Schedule from '../components/Schedule';
 import Issue from '../components/Issue';
-import Notice from '../components/notice/Notice';
+import Notice from "../components/notice/Notice";
 import PostNotice from '../components/notice/PostNotice';
 
-function Auth() {
+
+function Admin() {
     const { token, logout } = AuthUser();
     const logoutUser = () => {
         if (token !== undefined) {
@@ -27,9 +28,11 @@ function Auth() {
                     <li className="nav-item">
                         <Link className="nav-link" to="/schedule">Schedule</Link>
                     </li>
-                    
                     <li className="nav-item">
                         <Link className="nav-link" to="/issue">Issues</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/post">Post Notice</Link>
                     </li>
 
                     <li className="nav-item">
@@ -44,7 +47,7 @@ function Auth() {
                     <Route path="/" element={<Notice />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/schedule" element={<Schedule />} />
-                    {/* <Route path="/post" element={<PostNotice />} /> */}
+                    <Route path="/post" element={<PostNotice />} />
                     <Route path="/issue" element={<Issue />} />
 
                 </Routes>
@@ -53,4 +56,4 @@ function Auth() {
     );
 }
 
-export default Auth;
+export default Admin;

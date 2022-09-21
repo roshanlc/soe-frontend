@@ -1,0 +1,139 @@
+.row1 {
+    display: flex;
+}
+.row1 h3 {
+    padding-left: 10px;
+    flex: 2%;
+    font-weight: 600;
+}
+.row1 h4 {
+    font-weight: 500;
+    flex: 30%;
+}
+.form-group {
+    display: flex;
+}
+.form-group > input,
+select {
+    height: 46px;
+    padding: 0 5px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-family: 'Rubik', sans-serif;
+    outline: 0;
+    transition: 0.2s;
+    margin-top: 5px;
+    flex: 2;
+    
+    
+}
+.form-group > input,
+select,
+label {
+    margin: 5px;
+    min-width: 140px;
+    
+    
+    
+}
+.form-group > label {
+    display: inline-block;
+    margin-bottom: 0px;
+    
+    
+}
+.form-group:focus {
+    border-color: #0f7ef1;
+    
+}
+#submit {
+    color: lightgreen;
+    border-radius: 3px;
+    right: 0px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    background-color: #1e90ff;
+    transform: translateX(2px);
+    height: 100%;
+    padding: 6px;
+}
+
+#cancel {
+    color: red;
+    border-radius: 3px;
+    right: 0px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    background-color: red;
+    transform: translateX(2px);
+    height: 100%;
+    padding: 6px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+::-webkit-file-upload-button {
+    color: lightgreen;
+    border-radius: 3px;
+    right: 0px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    background-color: #1e90ff;
+    transform: translateX(-5px);
+    height: 100%;
+}
+.inline {
+    display: inline-block;
+    
+}
+/* for radio buttons */
+.switch-field {
+	display: flex;
+	margin-bottom: 36px;
+	overflow: hidden;
+}
+
+.switch-field input {
+	position: absolute !important;
+	clip: rect(0, 0, 0, 0);
+	height: 1px;
+	width: 1px;
+	border: 0;
+	overflow: hidden;
+}
+
+.switch-field label {
+	background-color: #e4e4e4;
+	color: rgba(0, 0, 0, 0.6);
+	font-size: 14px;
+	line-height: 1;
+	text-align: center;
+	padding: 8px 16px;
+	margin-right: -1px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+	transition: all 0.1s ease-in-out;
+}
+
+.switch-field label:hover {
+	cursor: pointer;
+}
+
+.switch-field input:checked + label {
+	background-color: #a5dc86;
+	box-shadow: none;
+}
+
+.switch-field label:first-of-type {
+	border-radius: 4px 0 0 4px;
+}
+
+.switch-field label:last-of-type {
+	border-radius: 0 4px 4px 0;
+}
+
+
+
+
