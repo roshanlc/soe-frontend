@@ -3,20 +3,56 @@ import { useEffect, useState } from "react";
 import { json } from "react-router-dom";
 import AuthUser from "./AuthUser";
 import "./Issue.css";
+import toast, { Toaster } from "react-hot-toast";
+import { Alert } from "bootstrap";
+
+const notify = () => toast("Here is your toast.");
 
 const parse = require("html-react-parser");
 
 export default function Issue() {
-  const { role, user_id, token, https } = AuthUser();
+  const { role, user_id, token, https, setToken } = AuthUser();
   // user issues returned from server is an array
   const [userIssues, setUserIssues] = useState([]);
 
   // For admin, it is an object
   const [adminIssues, setAdminIssues] = useState(Object);
 
+  // while submitting issues
+  const [issueContent, setIssueContent] = useState(String);
+
+  // Send toast as notification
+
+  const submitIssue = async () => {
+    let form = new FormData();
+    form.append("issue", issueContent);
+
+    // api call
+    https.post("/issues", form).then((res) => {
+      if (res.status === 201) {
+        alert("Issue was registered.");
+        console.log("Issue registered");
+      } else {
+        alert("Some error occured!");
+        alert("error", res.status, res.data);
+      }
+    });
+  };
+
+  // Marks issue as read
+  const markIssueAsRead = async (issueID) => {
+    https.put(`/issues/${issueID}`).then((response) => {
+      if (response.status == 200)
+        console.log(`Success marking issue id : ${issueID} as read`);
+      else console.log(`Error marking issue id : ${issueID} as read`);
+    });
+  };
+
   useEffect(() => {
     fetchIssues();
   }, []);
+
+  // Fetch issues according to roles
 
   const fetchIssues = () => {
     if (role === "student") {
@@ -45,7 +81,7 @@ export default function Issue() {
   };
 
   // for student rendering
-  if (role === "student") {
+  if (role === "student" || role === "teacher") {
     return (
       <Tabs>
         <TabList>
@@ -56,27 +92,72 @@ export default function Issue() {
         <TabPanel>
           {/* Isssues to be shown here */}
           <div>
-            {JSON.stringify(userIssues) === null ? (
+            {userIssues === null ? (
               <p>No issues to shown as issues length = (</p>
             ) : (
-              // Data nai show hudena kina ho lol
-              <div>
-                <p>
-                  Your issues are shown below. Total issues length =
-                  {userIssues.length} <br></br> There are 1 or more issues still
-                  I cannot show it lol
-                </p>
-                {userIssues.forEach((element) => {
-                  <li key={element.issue_d}>{element.issue}</li>;
+              <ol>
+                <p>Your issues are shown below.</p>
+                {userIssues.map((element) => {
+                  return (
+                    <li>
+                      <div className="issue-box">
+                        <p>
+                          <span class="issue-title">
+                            Issue: {element.issue}
+                          </span>
+                        </p>
+                        {/* My bad boys, it is indeed issue_d */}
+                        <p>
+                          <span class="issue-id">
+                            Issue ID:{element.issue_d}
+                          </span>
+                        </p>
+                        <p>
+                          <span class="issue-read">
+                            Read: {String(element.read)}
+                          </span>
+                        </p>
+                        <p>
+                          <span class="issue-created">
+                            Created: {element.created_at}
+                          </span>
+                        </p>
+                      </div>
+                    </li>
+                  );
                 })}
-              </div>
+              </ol>
             )}
           </div>
         </TabPanel>
         <TabPanel>
           {/* Issue to post here */}
-          <h4>Post an issue</h4>
-          <hr />
+
+          <div className="row justify-content-center pt-5">
+            <div className="col-sm-8">
+              <div className="card p-3">
+                <h1 className="text-center mb-3">Register Issue </h1>
+                <div className="form-group">
+                  <label>Issue Content:</label>
+                  <textarea
+                    rows={8}
+                    className="form-control"
+                    placeholder="Explain your issue in details."
+                    onChange={(e) => setIssueContent(e.target.value)}
+                    id="issue"
+                  ></textarea>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={submitIssue}
+                  className="btn btn-primary mt-4"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
         </TabPanel>
       </Tabs>
     );
@@ -84,20 +165,73 @@ export default function Issue() {
     return (
       <Tabs>
         <TabList>
-          <Tab>Issues by you</Tab>
-          <Tab>Post Issue</Tab>
+          <Tab>Total Issues</Tab>
         </TabList>
 
         <TabPanel>
-          {/* Isssues to be shown here */}
+          {/* Isssues to be shown here  for admin*/}
 
           <h4>Issues</h4>
-          <hr />
-        </TabPanel>
-        <TabPanel>
-          {/* Issue to post here */}
-          <h4>Post an issue</h4>
-          <hr />
+          <div>
+            {JSON.stringify(adminIssues) === "{}" ? (
+              <p>No issues to show.</p>
+            ) : (
+              <ol>
+                <p>
+                  Your issues are shown below. Total Issues ={" "}
+                  {adminIssues.issues.length}
+                  <br></br>
+                  <sub>
+                    <u>Note:</u> Unread issues are shown at top
+                  </sub>
+                </p>
+
+                {adminIssues.issues.map((element) => {
+                  return (
+                    <li>
+                      <div className="issue-box">
+                        <p>
+                          <span class="issue-title">
+                            Issue: {element.issue}
+                          </span>
+                        </p>
+                        {/* My bad boys, it is indeed issue_d */}
+                        <p>
+                          <span class="issue-id">
+                            Issue ID:{element.issue_d}
+                          </span>
+                        </p>
+                        <p>
+                          <span class="issue-read">
+                            Read: {String(element.read)}
+                          </span>
+                        </p>
+                        <p>
+                          <p>
+                            <span className="issue-read">
+                              By: {element.user_role}
+                            </span>
+                          </p>
+                          <span class="issue-created">
+                            Created: {element.created_at}
+                          </span>
+                        </p>
+                        <button
+                          className="btn btn-success"
+                          disabled={element.read ? "disabled" : ""}
+                          onClick={() => {
+                            markIssueAsRead(element.issue_d);
+                          }}
+                        >
+                          Mark as Read
+                        </button>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ol>
+            )}
+          </div>
         </TabPanel>
       </Tabs>
     );

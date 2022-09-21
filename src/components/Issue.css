@@ -1,0 +1,25 @@
+.issue-box {
+    background-color: rgb(242, 234, 234);
+    border-radius: 3px;
+    padding: 5px;
+    margin: 5px;
+
+}
+
+.issue-title {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.issue-id {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.issue-read {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+
+.issue-post-box {
+    height: 40%;
+    background-color: antiquewhite;
+}
