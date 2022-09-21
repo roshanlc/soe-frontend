@@ -6,6 +6,7 @@
     margin-left:10px;
     margin-bottom: 20px;
     /* border: 0.5px solid #003c6e86; */
+    padding: 15px;
     border-radius: 10px;
     font-family: 'muli', 'sans-serif';
 }
@@ -87,11 +88,10 @@ h1 {
 
 
 .btndelete {
-  /* display: flex; */
-  margin-left: 350px;
+  display: flex;
+  margin-top: 10px;
   align-items: center;
   background: rgb(240, 4, 4);
-  /* border: 1px solid lighten(gray, 24%); */
   height: 30px;
   padding: 0 10px 0 10px;
   letter-spacing: .25px;
