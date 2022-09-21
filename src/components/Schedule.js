@@ -301,7 +301,42 @@ const Schedule = () => {
       return (
         <div>
           <p>I'm a superuser, I will be setting schedule for y'all.</p>
-          <p>I'm not able to solve it - Roshan.</p>
+          <div>
+            {/* Program Block */}
+            <select id="programs" name="programs" placeholder="Select Programs">
+              <option value={0}>Select Program</option>
+
+              {programs.programs.map((data) => {
+                return <option value={data.program_id}>{data.name}</option>;
+              })}
+            </select>
+          </div>
+          <div>
+            {/* Semester Block */}
+
+            <select
+              id="semesters"
+              name="semesters"
+              placeholder="Select Semesters"
+            >
+              <option value={0}>Select Semester</option>
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
+              <option value={5}>5</option>
+              <option value={6}>6</option>
+              <option value={7}>7</option>
+              <option value={8}>8</option>
+            </select>
+          </div>
+          <div>
+            {/*Table block for schedule making */}
+            <p>
+              Here will be a table to make schedule, Backend supports it.
+              Frontend doesn't due to lack of time.
+            </p>
+          </div>
         </div>
       );
     }
