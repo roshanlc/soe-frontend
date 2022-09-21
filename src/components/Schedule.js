@@ -2,7 +2,6 @@ import { Axios } from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
 import AuthUser from "./AuthUser";
-
 import "./schedule.css";
 
 // Requires to install a new package called "html-react-parser"
@@ -97,9 +96,14 @@ const Schedule = () => {
 
   // Here, it should be object because backend sends ab object inside which there are arrays
   const [dat, setData] = useState(Object);
+  const [programs, setPrograms] = useState(Object);
+  // Redirect to different schedule page for admin
+
+  console.log("role = " + role);
 
   useEffect(() => {
-    //  fetchDetail();
+    //  fetchDetail(); //old code
+
     fetchAsync();
   }, []);
 
@@ -133,8 +137,20 @@ const Schedule = () => {
       setData(response.data);
       console.log("teacher data = ");
       console.log(response.data);
+    } else {
+      console.log("Fetching programs for superusers");
+      fetchPrograms();
     }
   };
+
+  // Fetch list of programs
+  function fetchPrograms() {
+    http.get("/programs").then((res) => {
+      setPrograms(res.data);
+      console.log("fetched programs");
+      console.log(res.data);
+    });
+  }
 
   // Generate schedule for student
   function generateScheduleForStudent(days) {
@@ -250,9 +266,15 @@ const Schedule = () => {
     return htmlData;
   }
   function renderElement() {
-    if (isObjectEmpty(dat)) {
+    // Check if both programs and dat are empty
+    if (isObjectEmpty(programs) && isObjectEmpty(dat)) {
       return <p>Loading.....</p>;
-    } else {
+    }
+    // else if role is student or teacher and dat is loaded
+    else if (
+      (role === "student" || role === "teacher") &&
+      !isObjectEmpty(dat)
+    ) {
       console.log("data loaded");
       console.log(dat);
 
@@ -266,9 +288,22 @@ const Schedule = () => {
       days.set("FRIDAY", dat.days[5]);
       days.set("SATURDAY", dat.days[6]);
 
-      if (role === "student") return parse(generateScheduleForStudent(days));
-      else if (role === "teacher")
+      if (role === "student") {
+        console.log("inside as student");
+        return parse(generateScheduleForStudent(days));
+      } else if (role === "teacher")
         return parse(generateScheduleForTeacher(days));
+    }
+    // for superuser
+    else if (!isObjectEmpty(programs) && role === "superuser") {
+      // Schedule setting by Admin
+      // NO idea how to do - Roshan :(
+      return (
+        <div>
+          <p>I'm a superuser, I will be setting schedule for y'all.</p>
+          <p>I'm not able to solve it - Roshan.</p>
+        </div>
+      );
     }
   }
 
