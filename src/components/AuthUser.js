@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import URLS from "./urls";
 export default function Authrole() {
   const navigate = useNavigate();
 
@@ -43,17 +44,25 @@ export default function Authrole() {
     navigate("/login");
   };
 
-  // change the base url here, whether server or localhost
+  // change the base url from urls.js, whether server or localhost
   const http = axios.create({
-    baseURL: "http://localhost:9000/v1",
+    baseURL: `${URLS.baseURL}/v1`,
     headers: {
       "Content-type": "application/json",
     },
   });
   const https = axios.create({
-    baseURL: "http://localhost:9000/v1",
+    baseURL: `${URLS.baseURL}/v1`,
     headers: {
       "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const fileUpload = axios.create({
+    baseURL: `${URLS.baseURL}/v1`,
+    headers: {
+      "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${token}`,
     },
   });
@@ -66,6 +75,7 @@ export default function Authrole() {
     getToken,
     http,
     https,
+    fileUpload,
     logout,
   };
 }

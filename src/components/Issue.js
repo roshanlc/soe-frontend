@@ -203,7 +203,7 @@ export default function Issue() {
                         </p>
                         <p>
                           <span class="issue-read">
-                            Read: {String(element.read)}
+                            Read: <u>{String(element.read)}</u>
                           </span>
                         </p>
                         <p>
