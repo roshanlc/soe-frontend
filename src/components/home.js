@@ -1,3 +1,4 @@
+import HTMLReactParser from "html-react-parser";
 import { useEffect, useState } from "react";
 import { json } from "react-router-dom";
 import AuthUser from "./AuthUser";
@@ -6,12 +7,24 @@ import "./notice.css";
 import URLS from "./urls";
 
 export default function Home() {
-  const { http } = AuthUser();
+  const { http, https, role } = AuthUser();
 
   const [notices, setNotices] = useState(Object);
   useEffect(() => {
     fetchNotices();
   }, []);
+
+  // notice delete
+  const deleteNotice = async (noticeID) => {
+    https.delete(`/notices/${noticeID}`).then((response) => {
+      if (response.status === 200) {
+        alert("Notice was deleted successfully");
+      } else {
+        console.log("Error occurred");
+        console.log(response.data);
+      }
+    });
+  };
 
   const fetchNotices = async () => {
     // fetching all notices
@@ -56,6 +69,22 @@ export default function Home() {
                       );
                     })}
                   </p>
+                ) : null}
+                {role === "superuser" ? (
+                  <button
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          "Are you sure about deleting the notice?"
+                        )
+                      ) {
+                        deleteNotice(data.notice_id);
+                      }
+                    }}
+                    className="btn btn-danger"
+                  >
+                    Delete
+                  </button>
                 ) : null}
               </div>
             );
