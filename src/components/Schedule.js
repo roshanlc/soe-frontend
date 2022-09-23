@@ -300,7 +300,6 @@ const Schedule = () => {
       // NO idea how to do - Roshan :(
       return (
         <div>
-          <p>I'm a superuser, I will be setting schedule for y'all.</p>
           <div>
             {/* Program Block */}
             <select id="programs" name="programs" placeholder="Select Programs">
@@ -335,6 +334,11 @@ const Schedule = () => {
             <p>
               Here will be a table to make schedule, Backend supports it.
               Frontend doesn't due to lack of time.
+            </p>
+            <p>
+              <marquee>
+                Please watch it being done from postman REST API client.
+              </marquee>
             </p>
           </div>
         </div>
